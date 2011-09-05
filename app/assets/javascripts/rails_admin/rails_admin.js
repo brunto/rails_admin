@@ -16,4 +16,5 @@
 //= require ./ra.remote-form.js
 //= require ./ra.timeline.js
 //= require ./jquery.colorpicker.js
+//= require ./jquery.nyroModal.custom.js
 //= require ./application.js

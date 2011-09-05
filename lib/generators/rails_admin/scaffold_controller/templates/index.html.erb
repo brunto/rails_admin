@@ -1,0 +1,48 @@
+<%% 
+  @page_name = '<%= plural_name.capitalize %>'
+  @model_name = '<%= plural_table_name %>'
+  current_link = link_to(I18n.t("admin.breadcrumbs.list").capitalize, list_path(:model_name => @model_name))
+  links_for_breadcrumb = [ current_link ]
+
+  controlls_links = [
+    action_button(new_path(:model_name => @model_name), t("admin.list.add_new"), :add),
+    action_button('#', t("admin.list.delete_selected"), :cross, :onclick => "$j('#bulk_action').val('delete'); $j('#bulk_form').submit(); return false;"),
+  ]
+
+%>
+<%% activo_block do %>
+  <%%= activo_secondary_navigation(links_for_breadcrumb, current_link) %>
+  <%% activo_block_content do %>
+    <%%= activo_block_content_header(@page_name, controlls_links) %>
+    <%% activo_block_inner_content do %>
+      <%% activo_table do %>
+        <thead>
+          <tr>
+            <th class="first"><input type="checkbox" class="checkbox toggle" /></th>
+            <th class="other left">ID</th>
+            <%- columns_without_id.each do |column| -%>
+            <th class="other left"><%= column.human_name %></th>
+            <%- end -%>
+            <th class="last"></th>
+          </tr>
+        </thead>
+        <tbody>
+        <%% @<%= plural_name %>.each do |object| %>
+        <tr class="<%%= cycle("odd", "even") %> link">
+          <td><%%= check_box_tag "bulk_ids[]", object.id, false, :id => "bulk_ids_#{object.id}", :class => "checkbox" %></td>
+          <td><%%= object.id %></td>
+          <%- columns_without_id.each do |column| -%>
+          <td><%%= object.<%= column.name %>.to_s %></td>
+          <%- end -%>
+          <td class="last">
+            <%%= action_icon(show_path(:model_name => @model_name, :id => object.id),   :show,  t("admin.list.show_action")) %>
+            <%%= action_icon(edit_path(:model_name => @model_name, :id => object.id),   :edit,  t("admin.list.edit_action")) %>
+            <%%= action_icon(destroy_path(:model_name => @model_name, :id => object.id), :cross, t("admin.list.delete_action")) %>
+          </td>
+        </tr>
+        <%% end %>
+        </tbody>
+      <%% end %>
+    <%% end %>
+  <%% end %>
+<%% end %>
