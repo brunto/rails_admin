@@ -39,7 +39,7 @@ class RailsAdmin::ScaffoldControllerGenerator < Rails::Generators::NamedBase
 
   def available_views
     #%w(index edit show new _form)
-    %w(index new)
+    %w(index new show edit)
   end
 
 end
