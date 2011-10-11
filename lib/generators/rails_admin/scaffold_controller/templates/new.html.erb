@@ -1,0 +1,23 @@
+<%% 
+  @page_name = '<%= plural_name.capitalize %>'
+  @model_name = '<%= plural_table_name %>'
+  dashboard_link = link_to(I18n.t("admin.dashboard.name").capitalize, dashboard_path)
+  list_link = link_to(I18n.t("admin.breadcrumbs.list").capitalize, list_path(:model_name => @model_name))
+  current_link = link_to(I18n.t("admin.breadcrumbs.new").capitalize, new_path(:model_name => @model_name))
+  links_for_breadcrumb = [ dashboard_link, list_link, current_link ]
+%>
+
+<%% activo_block do %>
+  <%% activo_block_content do %>
+    <%%= activo_block_content_header(@page_name, []) %>
+    <%% activo_block_inner_content do %>
+      <%%= render(:partial => 'layouts/rails_admin/flash', :locals => {:flash => flash}) %>
+      <%%= send(@model_config.create.form_builder, @object, :url => create_path(:model_name => @model_name, :id => @object.id), :html => { :multipart => true, :class => "form" }) do |form| %>
+        <%% @model_config.create.with(:form => form, :object => @object, :view => self).visible_groups.each do |fieldset| %>
+          <%%= render :partial => 'form_fieldset', :locals => { :fieldset => fieldset, :form => form, :object => @object } %>
+        <%% end %>
+        <%%= render :partial => 'submit_buttons' %>
+      <%% end %>
+    <%% end %>
+  <%% end %>
+<%% end %>

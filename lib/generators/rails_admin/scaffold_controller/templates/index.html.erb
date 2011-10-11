@@ -1,8 +1,9 @@
 <%% 
   @page_name = '<%= plural_name.capitalize %>'
   @model_name = '<%= plural_table_name %>'
+  dashboard_link = link_to(I18n.t("admin.dashboard.name").capitalize, dashboard_path)
   current_link = link_to(I18n.t("admin.breadcrumbs.list").capitalize, list_path(:model_name => @model_name))
-  links_for_breadcrumb = [ current_link ]
+  links_for_breadcrumb = [ dashboard_link, current_link ]
 
   controlls_links = [
     action_button(new_path(:model_name => @model_name), t("admin.list.add_new"), :add),

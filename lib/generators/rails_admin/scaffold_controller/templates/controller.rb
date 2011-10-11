@@ -20,8 +20,9 @@ class Admin::<%= controller_class_name %>Controller < RailsAdmin::ApplicationCon
   end
 
   def new
-    @<%= singular_table_name %> = <%= orm_class.build(class_name) %>
-
+    @object = <%= orm_class.build(class_name) %>
+    params[:model_name] = '<%= singular_table_name %>'
+    self.get_model
     respond_to do |format|
       format.html # new.html.erb
     end
@@ -32,11 +33,13 @@ class Admin::<%= controller_class_name %>Controller < RailsAdmin::ApplicationCon
   end
 
   def create
-    @<%= singular_table_name %> = <%= orm_class.build(class_name, "params[:#{singular_table_name}]") %>
+    @object = <%= orm_class.build(class_name, "params[:#{singular_table_name}]") %>
 
+    params[:model_name] = '<%= singular_table_name %>'
+    self.get_model
     respond_to do |format|
-      if @<%= orm_instance.save %>
-        format.html { redirect_to @<%= singular_table_name %>, <%= key_value :notice, "'#{human_name} was successfully created.'" %> }
+      if @object.save
+        format.html { redirect_to @object, <%= key_value :notice, "'#{human_name} was successfully created.'" %> }
       else
         format.html { render <%= key_value :action, '"new"' %> }
       end
