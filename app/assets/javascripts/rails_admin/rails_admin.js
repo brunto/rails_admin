@@ -4,8 +4,6 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require ./jquery-1.5.1.js
-//= require ./jquery-ui-1.8.14.js
 //= require ./jquery.ui.timepicker.js
 //= require_tree ./activo
 //= require ./ra.datetimepicker.js
